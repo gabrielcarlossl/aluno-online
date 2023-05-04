@@ -1,5 +1,6 @@
 package com.alunoonline.api.controller;
 
+import com.alunoonline.api.model.Aluno;
 import com.alunoonline.api.model.Professor;
 import com.alunoonline.api.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ public class ProfessorController {
 
     @Autowired
     ProfessorService service;
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Professor> create(@RequestBody Professor professor){
@@ -24,7 +24,20 @@ public class ProfessorController {
         return ResponseEntity.status(201).body(professorCreated);
     }
 
-
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Professor> update(@PathVariable Long id, @RequestBody Professor professorUpdated){
+        Optional<Professor> optionalProfessor = service.findById(id);
+        if (optionalProfessor.isPresent()){
+            Professor professor = optionalProfessor.get();
+            professor.setNome(professorUpdated.getNome());
+            professor.setEmail(professorUpdated.getEmail());
+            service.save(professor);
+            return ResponseEntity.ok(professor);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
