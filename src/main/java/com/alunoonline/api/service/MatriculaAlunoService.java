@@ -5,6 +5,8 @@ import com.alunoonline.api.repository.MatriculaAlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MatriculaAlunoService {
     @Autowired
@@ -14,4 +16,7 @@ public class MatriculaAlunoService {
         matriculaAluno.setStatus("MATRICULADO");
         return repository.save(matriculaAluno);
     }
+
+    public MatriculaAluno save(MatriculaAluno matriculaAluno){ return repository.save(matriculaAluno);}
+    public Optional<MatriculaAluno> findById(Long id){return repository.findById(id);}
 }
