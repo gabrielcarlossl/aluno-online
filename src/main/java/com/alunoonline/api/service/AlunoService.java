@@ -3,6 +3,7 @@ package com.alunoonline.api.service;
 import com.alunoonline.api.model.Aluno;
 import com.alunoonline.api.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +29,6 @@ public class AlunoService {
     public void deleteById(Long id){
         repository.deleteById(id);
     }
+
 
 }
