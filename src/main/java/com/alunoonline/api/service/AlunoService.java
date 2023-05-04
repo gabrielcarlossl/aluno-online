@@ -18,6 +18,10 @@ public class AlunoService {
         return repository.save(aluno);
     }
 
+    public Aluno save(Aluno aluno) {
+        return repository.save(aluno);
+    }
+
     public List<Aluno> findAll(){
         return repository.findAll();
     }

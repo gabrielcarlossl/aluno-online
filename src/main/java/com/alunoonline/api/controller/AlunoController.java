@@ -26,6 +26,23 @@ public class AlunoController {
         return ResponseEntity.status(201).body(alunoCreated);
     }
 
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Aluno> update(@PathVariable Long id, @RequestBody Aluno alunoAtualizado) {
+        Optional<Aluno> optionalAluno = service.findById(id);
+        if (optionalAluno.isPresent()) {
+            Aluno aluno = optionalAluno.get();
+            aluno.setNome(alunoAtualizado.getNome());
+            aluno.setEmail(alunoAtualizado.getEmail());
+
+
+            service.save(aluno);
+            return ResponseEntity.ok(aluno);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<Aluno> findAll(){
