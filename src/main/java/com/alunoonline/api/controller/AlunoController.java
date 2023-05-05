@@ -34,6 +34,7 @@ public class AlunoController {
             Aluno aluno = optionalAluno.get();
             aluno.setNome(alunoUpdated.getNome());
             aluno.setEmail(alunoUpdated.getEmail());
+            aluno.setCurso(alunoUpdated.getCurso());
             service.save(aluno);
             return ResponseEntity.ok(aluno);
         } else {
@@ -42,6 +43,7 @@ public class AlunoController {
     }
 
     @GetMapping("/all")
+    @CrossOrigin(origins = "http://localhost:3001")
     @ResponseStatus(HttpStatus.OK)
     public List<Aluno> findAll(){
         return service.findAll();
