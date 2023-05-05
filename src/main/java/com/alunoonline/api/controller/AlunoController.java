@@ -19,6 +19,7 @@ public class AlunoController {
     AlunoService service;
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3001")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Aluno> create(@RequestBody Aluno aluno){
         Aluno alunoCreated = service.create(aluno);
