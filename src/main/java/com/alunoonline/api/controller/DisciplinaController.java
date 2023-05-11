@@ -1,6 +1,7 @@
 package com.alunoonline.api.controller;
 
 
+import com.alunoonline.api.model.Aluno;
 import com.alunoonline.api.model.Disciplina;
 import com.alunoonline.api.service.DisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,6 +18,24 @@ public class DisciplinaController {
 
     @Autowired
     DisciplinaService service;
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Disciplina> findById(@PathVariable Long id) {
+        return service.findById(id);
+    }
+    @GetMapping("/all")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Disciplina> findAll(){
+        return service.findAll();
+    }
+
+    @GetMapping("/professor/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Disciplina> findByProfessorId(@PathVariable Long id){
+        return service.findByProfessorId(id);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
