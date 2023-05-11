@@ -19,7 +19,7 @@ public class AlunoController {
     AlunoService service;
 
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Aluno> create(@RequestBody Aluno aluno){
         Aluno alunoCreated = service.create(aluno);
@@ -44,7 +44,7 @@ public class AlunoController {
     }
 
     @GetMapping("/all")
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public List<Aluno> findAll(){
         return service.findAll();
@@ -57,6 +57,7 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) { service.deleteById(id);}
 
