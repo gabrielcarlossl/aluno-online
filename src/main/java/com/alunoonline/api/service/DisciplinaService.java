@@ -25,4 +25,8 @@ public class DisciplinaService {
     public List<Disciplina> findByProfessorId(Long professorId){
         return repository.findByProfessorId(professorId);
     }
+
+    public void deleteById(Long id){
+        repository.deleteById(id);
+    }
 }

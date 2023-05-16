@@ -20,6 +20,13 @@ public class DisciplinaController {
     @Autowired
     DisciplinaService service;
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Disciplina> create(@RequestBody Disciplina disciplina){
+        Disciplina disciplinaCreated = service.create(disciplina);
+        return ResponseEntity.status(201).body(disciplinaCreated);
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Disciplina> findById(@PathVariable Long id) {
@@ -36,13 +43,6 @@ public class DisciplinaController {
     @ResponseStatus(HttpStatus.OK)
     public List<Disciplina> findByProfessorId(@PathVariable Long id){
         return service.findByProfessorId(id);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Disciplina> create(@RequestBody Disciplina disciplina){
-        Disciplina disciplinaCreated = service.create(disciplina);
-        return ResponseEntity.status(201).body(disciplinaCreated);
     }
 
     @PatchMapping("/{id}")
@@ -70,4 +70,8 @@ public class DisciplinaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) { service.deleteById(id);}
 }
