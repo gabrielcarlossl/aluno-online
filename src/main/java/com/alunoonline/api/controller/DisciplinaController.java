@@ -3,6 +3,7 @@ package com.alunoonline.api.controller;
 
 import com.alunoonline.api.model.Aluno;
 import com.alunoonline.api.model.Disciplina;
+import com.alunoonline.api.model.Professor;
 import com.alunoonline.api.service.DisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,11 +51,22 @@ public class DisciplinaController {
         Optional<Disciplina> optionalDisciplina = service.findById(id);
         if (optionalDisciplina.isPresent()){
             Disciplina disciplina = optionalDisciplina.get();
-            disciplina.setNome(disciplinaUpdate.getNome());
-            disciplina.setProfessor(disciplinaUpdate.getProfessor());
+
+            // Verificar se o nome foi fornecido na requisição
+            String nomeAtualizado = disciplinaUpdate.getNome();
+            if (nomeAtualizado != null && !nomeAtualizado.isEmpty()) {
+                disciplina.setNome(nomeAtualizado);
+            }
+
+            // Verificar se o professor foi fornecido na requisição
+            Professor professorAtualizado = disciplinaUpdate.getProfessor();
+            if (professorAtualizado != null) {
+                disciplina.setProfessor(professorAtualizado);
+            }
+
             service.save(disciplina);
             return ResponseEntity.ok(disciplina);
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

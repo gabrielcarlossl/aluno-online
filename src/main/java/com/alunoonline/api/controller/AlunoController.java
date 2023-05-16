@@ -33,9 +33,25 @@ public class AlunoController {
         Optional<Aluno> optionalAluno = service.findById(id);
         if (optionalAluno.isPresent()) {
             Aluno aluno = optionalAluno.get();
-            aluno.setNome(alunoUpdated.getNome());
-            aluno.setEmail(alunoUpdated.getEmail());
-            aluno.setCurso(alunoUpdated.getCurso());
+
+            // Verificar se o nome foi fornecido na requisição
+            String nomeAtualizado = alunoUpdated.getNome();
+            if (nomeAtualizado != null && !nomeAtualizado.isEmpty()) {
+                aluno.setNome(nomeAtualizado);
+            }
+
+            // Verificar se o email foi fornecido na requisição
+            String emailAtualizado = alunoUpdated.getEmail();
+            if (emailAtualizado != null && !emailAtualizado.isEmpty()) {
+                aluno.setEmail(emailAtualizado);
+            }
+
+            // Verificar se o curso foi fornecido na requisição
+            String cursoAtualizado = alunoUpdated.getCurso();
+            if (cursoAtualizado != null && !cursoAtualizado.isEmpty()) {
+                aluno.setCurso(cursoAtualizado);
+            }
+
             service.save(aluno);
             return ResponseEntity.ok(aluno);
         } else {

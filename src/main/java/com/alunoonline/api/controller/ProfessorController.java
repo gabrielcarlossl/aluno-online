@@ -30,8 +30,20 @@ public class ProfessorController {
         Optional<Professor> optionalProfessor = service.findById(id);
         if (optionalProfessor.isPresent()){
             Professor professor = optionalProfessor.get();
-            professor.setNome(professorUpdated.getNome());
-            professor.setEmail(professorUpdated.getEmail());
+
+            String nomeAtualizado = professorUpdated.getNome();
+            String emailAtualizado = professorUpdated.getEmail();
+
+            // Verificar se o nome foi fornecido na requisição
+            if (nomeAtualizado != null && !nomeAtualizado.isEmpty()) {
+                professor.setNome(nomeAtualizado);
+            }
+
+            // Verificar se o email foi fornecido na requisição
+            if (emailAtualizado != null && !emailAtualizado.isEmpty()) {
+                professor.setEmail(emailAtualizado);
+            }
+
             service.save(professor);
             return ResponseEntity.ok(professor);
         } else {
