@@ -28,6 +28,7 @@ public class AlunoController {
     }
 
     @PatchMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Aluno> update(@PathVariable Long id, @RequestBody Aluno alunoUpdated) {
         Optional<Aluno> optionalAluno = service.findById(id);
@@ -67,6 +68,7 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Aluno> findById(@PathVariable Long id) {
         return service.findById(id);

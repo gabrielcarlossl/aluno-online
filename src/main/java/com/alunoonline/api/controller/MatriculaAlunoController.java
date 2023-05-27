@@ -18,14 +18,16 @@ public class MatriculaAlunoController {
     @Autowired
     MatriculaAlunoService service;
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<MatriculaAluno> create(@RequestBody MatriculaAluno matriculaAluno) {
         MatriculaAluno matriculaAlunoCreated = service.create(matriculaAluno);
-
+        matriculaAluno.setStatus("MATRICULADO");
         return ResponseEntity.status(201).body(matriculaAlunoCreated);
     }
 
     @PatchMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MatriculaAluno> update(@PathVariable Long id, @RequestBody MatriculaAluno matriculaAlunoUpdate){
 
@@ -47,6 +49,7 @@ public class MatriculaAlunoController {
     }
 
     @PatchMapping("/update-grades/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizaNotas(@RequestBody AtualizarNotasRequestDto atualizarNotasRequestDto,
                               @PathVariable Long id) {
@@ -54,12 +57,14 @@ public class MatriculaAlunoController {
     }
 
     @PatchMapping("/atualiza-status/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizarStatusParaTrancado(@PathVariable Long id){
         service.atualizarStatusParaTrancado(id);
     }
 
     @GetMapping("/historico-aluno/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public HistoricoAlunoDto emitirHistoricoDoAluno(@PathVariable Long id) {
         return service.emitirHistoricoDoAluno(id);

@@ -18,6 +18,7 @@ public class ProfessorController {
     @Autowired
     ProfessorService service;
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Professor> create(@RequestBody Professor professor){
         Professor professorCreated = service.create(professor);
@@ -25,6 +26,7 @@ public class ProfessorController {
     }
 
     @PatchMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Professor> update(@PathVariable Long id, @RequestBody Professor professorUpdated){
         Optional<Professor> optionalProfessor = service.findById(id);
@@ -52,18 +54,21 @@ public class ProfessorController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Professor> findById(@PathVariable Long id){
         return service.findById(id);
     }
 
     @GetMapping("/all")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public List<Professor> findAll(){
         return service.findAll();
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id){
         service.deleteById(id);
