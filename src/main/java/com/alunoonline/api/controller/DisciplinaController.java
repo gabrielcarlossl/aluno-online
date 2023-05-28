@@ -21,6 +21,7 @@ public class DisciplinaController {
     DisciplinaService service;
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Disciplina> create(@RequestBody Disciplina disciplina){
         Disciplina disciplinaCreated = service.create(disciplina);
@@ -40,12 +41,14 @@ public class DisciplinaController {
     }
 
     @GetMapping("/professor/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public List<Disciplina> findByProfessorId(@PathVariable Long id){
         return service.findByProfessorId(id);
     }
 
     @PatchMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Disciplina> update(@PathVariable Long id, @RequestBody Disciplina disciplinaUpdate){
         Optional<Disciplina> optionalDisciplina = service.findById(id);
