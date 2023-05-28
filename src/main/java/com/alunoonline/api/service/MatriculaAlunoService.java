@@ -29,28 +29,31 @@ public class MatriculaAlunoService {
     public MatriculaAluno save(MatriculaAluno matriculaAluno){ return repository.save(matriculaAluno);}
     public Optional<MatriculaAluno> findById(Long id){return repository.findById(id);}
 
-    public void atualizarNotas(AtualizarNotasRequestDto atualizarNotasRequestDto, Long matriculaAlunoId){
+    public void updateGrades(AtualizarNotasRequestDto atualizarNotasRequestDto, Long matriculaAlunoId) {
         Optional<MatriculaAluno> matriculaAlunoToUpdate = repository.findById(matriculaAlunoId);
 
-        boolean needUpdate = false;
-        if(atualizarNotasRequestDto.getNota1() != null){
-            matriculaAlunoToUpdate.ifPresent(matriculaAluno -> matriculaAluno.setNota1(atualizarNotasRequestDto.getNota1()));
-            needUpdate = true;
-        }
-        if (atualizarNotasRequestDto.getNota2() != null){
-            matriculaAlunoToUpdate.ifPresent(matriculaAluno -> matriculaAluno.setNota2(atualizarNotasRequestDto.getNota2()));
-            needUpdate = true;
-        }
+        if (matriculaAlunoToUpdate.isPresent()) {
+            MatriculaAluno matriculaAluno = matriculaAlunoToUpdate.get();
 
-        if(needUpdate){
-            if (matriculaAlunoToUpdate.get().getNota1() != null && matriculaAlunoToUpdate.get().getNota2() != null){
-                if ((matriculaAlunoToUpdate.get().getNota1() + matriculaAlunoToUpdate.get().getNota2()) / 2 >= gradesAvgToApprove){
-                    matriculaAlunoToUpdate.ifPresent(matriculaAluno -> matriculaAluno.setStatus("APROVADO"));
-                }else{
-                    matriculaAlunoToUpdate.ifPresent(matriculaAluno -> matriculaAluno.setStatus("REPROVADO"));
+            if (atualizarNotasRequestDto.getNota1() != null) {
+                matriculaAluno.setNota1(atualizarNotasRequestDto.getNota1());
+            }
+
+            if (atualizarNotasRequestDto.getNota2() != null) {
+                matriculaAluno.setNota2(atualizarNotasRequestDto.getNota2());
+            }
+
+            if (matriculaAluno.getNota1() != null && matriculaAluno.getNota2() != null) {
+                double average = (matriculaAluno.getNota1() + matriculaAluno.getNota2()) / 2.0;
+
+                if (average >= gradesAvgToApprove) {
+                    matriculaAluno.setStatus("APROVADO");
+                } else {
+                    matriculaAluno.setStatus("REPROVADO");
                 }
             }
-            repository.save(matriculaAlunoToUpdate.get());
+
+            repository.save(matriculaAluno);
         }
     }
 
@@ -71,7 +74,7 @@ public class MatriculaAlunoService {
         }
     }
 
-    public HistoricoAlunoDto emitirHistoricoDoAluno(Long alunoId) {
+    public HistoricoAlunoDto getHistoricoFromAluno(Long alunoId) {
         List<MatriculaAluno> matriculasDoAluno = repository.findByAlunoId(alunoId);
 
         if (!matriculasDoAluno.isEmpty()) {
@@ -89,7 +92,7 @@ public class MatriculaAlunoService {
                 disciplinasAlunoDto.setNota1(matricula.getNota1());
                 disciplinasAlunoDto.setNota2(matricula.getNota2());
                 if ((matricula.getNota1() != null && matricula.getNota2() != null)) {
-                    disciplinasAlunoDto.setMedia(matricula.getNota1() + matricula.getNota2() / 2);
+                    disciplinasAlunoDto.setMedia((matricula.getNota1() + matricula.getNota2()) / 2);
                 } else {
                     disciplinasAlunoDto.setMedia(null);
                 }
@@ -103,6 +106,6 @@ public class MatriculaAlunoService {
             return historico;
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Esse aluno não possui matrículas.");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Este aluno não possui matrículas.");
     }
 }

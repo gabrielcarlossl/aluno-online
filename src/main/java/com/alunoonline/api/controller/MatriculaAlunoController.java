@@ -48,14 +48,13 @@ public class MatriculaAlunoController {
         }
     }
 
-    @PatchMapping("/update-grades/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
+    @PatchMapping("/update-grades/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizaNotas(@RequestBody AtualizarNotasRequestDto atualizarNotasRequestDto,
                               @PathVariable Long id) {
-        service.atualizarNotas(atualizarNotasRequestDto, id);
+        service.updateGrades(atualizarNotasRequestDto, id);
     }
-
     @PatchMapping("/atualiza-status/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -67,7 +66,7 @@ public class MatriculaAlunoController {
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
     public HistoricoAlunoDto emitirHistoricoDoAluno(@PathVariable Long id) {
-        return service.emitirHistoricoDoAluno(id);
+        return service.getHistoricoFromAluno(id);
     }
 }
 
