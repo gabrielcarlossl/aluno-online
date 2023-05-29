@@ -57,6 +57,7 @@ public class MatriculaAlunoService {
         }
     }
 
+    // Para atualizar o status deve ser passado o ID da matricula
     public void atualizarStatusParaTrancado(Long matriculaId){
         Optional<MatriculaAluno> matriculaAlunoToUpdate = repository.findById(matriculaId);
 
@@ -87,6 +88,7 @@ public class MatriculaAlunoService {
             for (MatriculaAluno matricula: matriculasDoAluno) {
                 DisciplinasAlunoDto disciplinasAlunoDto = new DisciplinasAlunoDto();
 
+                disciplinasAlunoDto.setId(matricula.getId());
                 disciplinasAlunoDto.setNomeDisciplina(matricula.getDisciplina().getNome());
                 disciplinasAlunoDto.setProfessorDisciplina(matricula.getDisciplina().getProfessor().getNome());
                 disciplinasAlunoDto.setNota1(matricula.getNota1());
